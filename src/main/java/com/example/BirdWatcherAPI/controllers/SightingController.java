@@ -1,8 +1,6 @@
 package com.example.BirdWatcherAPI.controllers;
 
-import com.example.BirdWatcherAPI.items.BirdSpecies;
 import com.example.BirdWatcherAPI.items.Sighting;
-import com.example.BirdWatcherAPI.items.User;
 import com.example.BirdWatcherAPI.services.SightingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,7 +71,7 @@ public class SightingController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> deleteSighting(int id){
-        boolean success = sightingService.deleteRecipeById(id);
+        boolean success = sightingService.deleteSightingById(id);
         if (success) {
             // Delete request succeeded.
             return ResponseEntity.status(HttpStatus.OK).body(true) ;

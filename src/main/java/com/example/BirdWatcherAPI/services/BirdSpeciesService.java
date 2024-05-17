@@ -43,7 +43,7 @@ public class BirdSpeciesService {
         return false;
     }
 
-    public boolean deleteRecipeById(int id) {
+    public boolean deleteBirdSpeciesById(int id) {
         if(repo.existsById(id)){
             repo.deleteById(id);
             return true;

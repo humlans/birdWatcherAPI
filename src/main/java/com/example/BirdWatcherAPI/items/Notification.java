@@ -1,5 +1,6 @@
 package com.example.BirdWatcherAPI.items;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -12,27 +13,21 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"birdSpecies"})
 public class Notification {
     @Id
     private int id;
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "notifications_users_jointable",
-            joinColumns = @JoinColumn(name = "notification_id"),
-            inverseJoinColumns = @JoinColumn(name = "subscribers_username"))
-    @JsonIgnoreProperties("notifications")
-    private List<User> subscribers;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "birdspecies_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnoreProperties(value = {"notifications"})
-    private BirdSpecies birdSpecies;
+    //Join with user
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "username", nullable = false)
+    private User subscriber;
 
-    @OneToOne
-    @JoinColumn(name = "sighting_id", referencedColumnName = "id")
-    @JsonIgnoreProperties("notification")
-    private Sighting sightingAdded;
- */
+    //Join with sighting
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @JoinColumn(name = "sighting_id", nullable = false)
+    private Sighting sighting;
+
+    @Column
+    private String message;
+
 }

@@ -1,13 +1,11 @@
 package com.example.BirdWatcherAPI.controllers;
 
-import com.example.BirdWatcherAPI.items.BirdSpecies;
 import com.example.BirdWatcherAPI.items.Notification;
-import com.example.BirdWatcherAPI.services.NotificationsService;
+import com.example.BirdWatcherAPI.items.Sighting;
+import com.example.BirdWatcherAPI.services.NotificationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -15,15 +13,37 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
-    private NotificationsService notificationsService;
 
-    public NotificationController(NotificationsService notificationsService) {
-        this.notificationsService = notificationsService;
+    private NotificationService notificationService;
+
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
-    @GetMapping("/get-all")
-    public ResponseEntity<ArrayList<Notification>> getAllNotifications() {
-        return ResponseEntity.ok(notificationsService.getNotifications());
+    // Don't forget to change this in case of not found, the responsebody should change then
+    // Make sure that the username is a username that exists before doing this
+    @GetMapping("/get-by-user")
+    public ResponseEntity<ArrayList<Notification>> getSightingsByUser(String username) {
+        return ResponseEntity.ok(notificationService.getNotificationsByUsername(username));
     }
+
+    @GetMapping("/get-last-id")
+    public ResponseEntity<Integer> getLastId() {
+        int lastId = notificationService.getLastId();
+        if (lastId == Integer.MIN_VALUE) {
+            return ResponseEntity.badRequest().body(lastId);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(lastId);
+    }
+
+    @PostMapping("/add-new")
+    public ResponseEntity<Boolean> addNewNotification(@RequestBody Notification notification) {
+        boolean success = notificationService.addNewNotification(notification);
+        if(success) {
+            return ResponseEntity.ok(true);
+        }
+        return ResponseEntity.badRequest().body(false);
+    }
+
 
 }

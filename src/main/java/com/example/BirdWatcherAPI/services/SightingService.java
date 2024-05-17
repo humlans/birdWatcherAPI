@@ -1,8 +1,6 @@
 package com.example.BirdWatcherAPI.services;
 
-import com.example.BirdWatcherAPI.items.BirdSpecies;
 import com.example.BirdWatcherAPI.items.Sighting;
-import com.example.BirdWatcherAPI.items.User;
 import com.example.BirdWatcherAPI.repositories.SightingRepository;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +47,7 @@ public class SightingService {
         return repo.findAll().getLast().getId();
     }
 
-    public boolean deleteRecipeById(int id) {
+    public boolean deleteSightingById(int id) {
         if(repo.existsById(id)){
             repo.deleteById(id);
             return true;

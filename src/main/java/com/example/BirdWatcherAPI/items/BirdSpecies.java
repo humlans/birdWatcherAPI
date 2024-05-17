@@ -34,35 +34,18 @@ public class BirdSpecies {
     private String appearance;
     @Column
     private int expectedLifetime;
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "birdspecies_subscribers_jointable",
-            joinColumns = @JoinColumn(name = "birdspecies_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "subscribers_username", referencedColumnName = "username"))
-    @JsonIgnoreProperties("subscriptions")
-    private List<User> subscribers;
 
-    //Join with Notification
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "birdSpecies", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"birdSpecies"})
-    private List<Notification> notifications;
-*/
     //Join with Sighting
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "birdSpecies", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("birdSpecies")
     private List<Sighting> sightings;
 
-    public BirdSpecies(int id, String scientificName, String englishName, String family, String habitat, String diet, String gradeOfEndangerment, String appearance, int expectedLifetime) {
-        this.id = id;
-        this.scientificName = scientificName;
-        this.englishName = englishName;
-        this.family = family;
-        this.habitat = habitat;
-        this.diet = diet;
-        this.gradeOfEndangerment = gradeOfEndangerment;
-        this.appearance = appearance;
-        this.expectedLifetime = expectedLifetime;
-    }
+
+    //Join with NotificationSender
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "birdSpecies", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("birdSpecies")
+    private NotificationSender notificationSender;
+
 }
