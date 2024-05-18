@@ -43,7 +43,7 @@ public class Sighting {
 
     //Join with notifications
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sighting", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sighting", cascade = CascadeType.ALL)
     private List<Notification> notifications;
 
 }
